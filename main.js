@@ -11,7 +11,7 @@ function getColor() {
     const g = Math.floor(Math.random(1) * 256);
     const b = Math.floor(Math.random(1) * 256);
     console.log(`rgb(${r},${g},${b})`);
-    return `rgb(${r},${g},${b})`;
+    return `${r},${g},${b}`;
 }
 
 function generateGrid(size) {
@@ -21,11 +21,16 @@ function generateGrid(size) {
         const item = document.createElement('div');
         item.classList.add('item');
         item.style.flex = `0 0 calc(100% / ${size})`;
+        item.setAttribute("data-opacity", 0)
         grid.appendChild(item);
         item.addEventListener("mouseover", () => {
-            let color = (colorBool) ? getColor() : "blue";
-            
-            item.style.backgroundColor = color
+            let opacity = Number(item.getAttribute("data-opacity"));
+            if (opacity < 1) {
+                opacity += 0.1;
+                item.setAttribute("data-opacity", opacity);
+            }
+            let color = (colorBool) ? getColor() : "115, 147, 255";            
+            item.style.backgroundColor = 'rgb(' + color + ',' + opacity + ')';
         });
     }
 };
